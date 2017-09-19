@@ -1,0 +1,86 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+           	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd ">
+
+
+	
+	<bean id="aosJob" class="com.yuelinghui.job.ActivityOrderStatusJob" />
+	<bean id="asJob" class="com.yuelinghui.job.ActivityStatusJob" />
+	<bean id="gosJob" class="com.yuelinghui.job.GoodsOrderStatusJob" />
+	<bean id="eocJob" class="com.yuelinghui.job.ExpireOrderCancelJob" />
+	<bean id="ecJob" class="com.yuelinghui.job.ExpireCouponJob" />
+
+
+	
+    <bean id="aosJobRemind" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="aosJob" />
+        <property name="targetMethod" value="run" />
+        <property name="concurrent" value="false" />
+    </bean>
+    <bean id="aosJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="aosJobRemind" />
+        <property name="cronExpression" value="0 0 0/1 * * ?" /> <!-- 活动订单状态变更任务 订单状态 待开始  to 已结束  60分钟执行一次-->
+    </bean>
+ 
+ 
+ 	<bean id="asJobRemind" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="asJob" />
+        <property name="targetMethod" value="run" />
+        <property name="concurrent" value="false" />
+    </bean>
+    <bean id="asJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="asJobRemind" />
+        <property name="cronExpression" value="0 0/40 * * * ?" /> <!-- 活动商品状态变更任务 [报名中 to 进行中 to 已结束] 40分钟执行一次 -->
+    </bean>
+    
+    
+    <bean id="gosJobRemind" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="gosJob" />
+        <property name="targetMethod" value="run" />
+        <property name="concurrent" value="false" />
+    </bean>
+    <bean id="gosJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="gosJobRemind" />
+        <property name="cronExpression" value="0 0 0/2 * * ?" /> <!-- 商品订单状态变更任务 订单超时未收货自动收货 [待收货  to 确认收货] 120分钟执行一次 -->
+    </bean>
+    
+    
+    <bean id="eocJobRemind" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="eocJob" />
+        <property name="targetMethod" value="run" />
+        <property name="concurrent" value="false" />
+    </bean>
+    <bean id="eocJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="eocJobRemind" />
+        <property name="cronExpression" value="0 0/6 * * * ?" /> <!-- 订单超时未支付， 取消订单  20分钟执行一次 -->
+    </bean>
+ 
+ 	<bean id="ecJobRemind" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="ecJob" />
+        <property name="targetMethod" value="run" />
+        <property name="concurrent" value="false" />
+    </bean>
+    <bean id="ecJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="ecJobRemind" />
+        <property name="cronExpression" value="0 0/10 * * * ?" /> <!-- 订单超时未支付， 取消订单  20分钟执行一次 -->
+    </bean>
+ 
+ 
+    <bean id="startQuartz" lazy-init="false"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list> 
+                <ref bean="aosJobCronTrigger" />
+                <ref bean="asJobCronTrigger" />
+                <ref bean="gosJobCronTrigger" />
+                <ref bean="eocJobCronTrigger" />
+                <ref bean="ecJobCronTrigger" />
+            </list>
+        </property>
+        <property name="autoStartup" value="true" />
+        <property name="schedulerName" value="cronScheduler" />
+    </bean>   
+</beans>
