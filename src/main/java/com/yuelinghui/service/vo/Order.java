@@ -33,8 +33,6 @@ public class Order extends BasePojo{
 	private Double productOriginalPrice;//商品原价
 	private Integer buyCount;			//购买数量
 	private Double totalAmount;			//订单总额（售价*数量）
-	private Double payCash;				//订单现金支付金额
-	private Double payNoncash;			//订单非现金支付金额
 	private Date createTime;			//订单创建时间
 	private Date updateTime;			//订单更新时间
 	private Date expireTime;			//订单超时时间
@@ -132,18 +130,6 @@ public class Order extends BasePojo{
 	public void setTotalAmount(Double totalAmount) {
 		this.totalAmount = totalAmount;
 	}
-	public Double getPayCash() {
-		return payCash;
-	}
-	public void setPayCash(Double payCash) {
-		this.payCash = payCash;
-	}
-	public Double getPayNoncash() {
-		return payNoncash;
-	}
-	public void setPayNoncash(Double payNoncash) {
-		this.payNoncash = payNoncash;
-	}
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -185,8 +171,7 @@ public class Order extends BasePojo{
 				+ ", productInfo=" + productInfo + ", productPrice="
 				+ productPrice + ", productOriginalPrice="
 				+ productOriginalPrice + ", buyCount=" + buyCount
-				+ ", totalAmount=" + totalAmount + ", payCash=" + payCash
-				+ ", payNoncash=" + payNoncash + ", createTime=" + createTime
+				+ ", totalAmount=" + totalAmount + ",  createTime=" + createTime
 				+ ", updateTime=" + updateTime + ", expireTime=" + expireTime
 				+ ", finishTime=" + finishTime + "]";
 	}

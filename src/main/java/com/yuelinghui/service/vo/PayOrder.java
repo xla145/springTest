@@ -27,8 +27,6 @@ public class PayOrder extends BasePojo{
 	private String productDetail;           //商品详情
 	private Double productSinglePrice; 		//支付商品单价 
 	private Integer productCount;     		//支付订单商品数量
-	private Double payCash;       			//订单现金支付金额 
-	private Double payNoncash;  			//订单非现金支付金额 
 	private Integer payStatus;      		//支付单状态。0:未支付， 10:支付成功, 20:支付失败，30已退费
 	private Date createTime;				//创建时间
 	private Date updateTime;				//更新时间
@@ -103,18 +101,6 @@ public class PayOrder extends BasePojo{
 	public void setProductCount(Integer productCount) {
 		this.productCount = productCount;
 	}
-	public Double getPayCash() {
-		return payCash;
-	}
-	public void setPayCash(Double payCash) {
-		this.payCash = payCash;
-	}
-	public Double getPayNoncash() {
-		return payNoncash;
-	}
-	public void setPayNoncash(Double payNoncash) {
-		this.payNoncash = payNoncash;
-	}
 	public Integer getPayStatus() {
 		return payStatus;
 	}
@@ -153,7 +139,6 @@ public class PayOrder extends BasePojo{
 				+ totalAmount + ", productName=" + productName
 				+ ", productDetail=" + productDetail + ", productSinglePrice="
 				+ productSinglePrice + ", productCount=" + productCount
-				+ ", payCash=" + payCash + ", payNoncash=" + payNoncash
 				+ ", payStatus=" + payStatus + ", createTime=" + createTime
 				+ ", updateTime=" + updateTime + ", payRemark=" + payRemark
 				+ ", payWay=" + payWay + "]";

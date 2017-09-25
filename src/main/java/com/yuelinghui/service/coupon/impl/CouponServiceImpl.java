@@ -1,13 +1,16 @@
 package com.yuelinghui.service.coupon.impl;
 import java.util.Date;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 import cn.assist.easydao.dao.BaseDao;
+
 import com.yuelinghui.base.constant.CouponConstant;
 import com.yuelinghui.service.coupon.ICouponService;
-import com.yuelinghui.service.vo.MemberCouponPage;
+import com.yuelinghui.service.vo.MemberCoupon;
 
 /**
  *	用户代金券相关 
@@ -24,11 +27,11 @@ public class CouponServiceImpl implements ICouponService{
 	 * 
 	 */
 	public void couponExpireInvalid(){
-		List<MemberCouponPage> list = getExpireCoupon(20);
+		List<MemberCoupon> list = getExpireCoupon(20);
 		if(list == null || list.size() < 1){
 			return ;
 		}
-		for (MemberCouponPage mc : list) {
+		for (MemberCoupon mc : list) {
 			String mcid = mc.getMcid();
 			String sql = "update `member_coupon` set `status` = ? where `mcid` = ? and `status` = ?";
 			int result = BaseDao.dao.update(sql, CouponConstant.COUPON_MEMBER_STATUS_EXPIRED, mcid, CouponConstant.COUPON_MEMBER_STATUS_UNUSED);
@@ -43,9 +46,9 @@ public class CouponServiceImpl implements ICouponService{
 	 * @param count
 	 * @return
 	 */
-	List<MemberCouponPage> getExpireCoupon(int count){
+	List<MemberCoupon> getExpireCoupon(int count){
 		String sql = "select * from `member_coupon` where `status` = ? and `end_time` < ? order by `end_time` desc limit ?";
-		return BaseDao.dao.queryForListEntity(MemberCouponPage.class, sql, CouponConstant.COUPON_MEMBER_STATUS_UNUSED, new Date(), count);
+		return BaseDao.dao.queryForListEntity(MemberCoupon.class, sql, CouponConstant.COUPON_MEMBER_STATUS_UNUSED, new Date(), count);
 	}
 	
 	
