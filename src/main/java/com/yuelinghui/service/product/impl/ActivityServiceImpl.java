@@ -133,10 +133,11 @@ public class ActivityServiceImpl implements IActivityService{
 		sql.append(" on p.pid = pa.pid");
 		sql.append(" where p.product_group_type = ? and p.status = ?");
 		sql.append(" and pa.activity_status <> ?");
+		sql.append(" and pa.activity_status <> ?");
 		sql.append(" and pa.activity_start_time < now()");
 		sql.append(" limit ?");
 		
-		return BaseDao.dao.queryForListEntity(ProductActivity.class, sql.toString(), ProductGroupConstant.PRODUCT_TYPE_GROUP_ACTIVITY, ProductConstant.PRODUCT_STATUS_ONOFFER, ProductActivityConstant.ACTIVITY_STATUS_FINISH, count);
+		return BaseDao.dao.queryForListEntity(ProductActivity.class, sql.toString(), ProductGroupConstant.PRODUCT_TYPE_GROUP_ACTIVITY, ProductConstant.PRODUCT_STATUS_ONOFFER, ProductActivityConstant.ACTIVITY_STATUS_FINISH, ProductActivityConstant.ACTIVITY_STATUS_UNDERWAY, count);
 	}
 	
 	/**

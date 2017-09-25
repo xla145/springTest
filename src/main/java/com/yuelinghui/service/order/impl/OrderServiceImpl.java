@@ -76,9 +76,6 @@ public class OrderServiceImpl implements IOrderService{
 	}
 	
 	
-	
-	
-	
 	/**********************************************************************************************************************************************************/
 	
 	/**
@@ -210,7 +207,7 @@ public class OrderServiceImpl implements IOrderService{
 		sql.append(" from `pay_order_detail`");
 		sql.append(" where `order_id` = ? and `pay_way` = ? and  `status` = ?");
 		
-		return BaseDao.dao.queryForListEntity(PayInfo.class, orderId, sql.toString(), PayOrderConstant.PAY_WAY_DAIJQ, PayOrderConstant.PAY_STATUS_SUCCESS);
+		return BaseDao.dao.queryForListEntity(PayInfo.class, sql.toString(), orderId, PayOrderConstant.PAY_WAY_DAIJQ, PayOrderConstant.PAY_STATUS_SUCCESS);
 	}
 	
 	/**
