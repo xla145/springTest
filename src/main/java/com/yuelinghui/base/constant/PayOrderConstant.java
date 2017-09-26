@@ -34,7 +34,7 @@ public class PayOrderConstant {
 	/**支付单支付成功**/
 	public static final int PAY_ORDER_STATUS_SUCCESS = 10;
 	/**支付单支付失败**/
-	public static final int PAY_ORDER_STATUS_FAIL = 30;
+	public static final int PAY_ORDER_STATUS_FAIL = 20;
 	
 	/********************************支付明细状态***********************************/
 	/**未支付**/

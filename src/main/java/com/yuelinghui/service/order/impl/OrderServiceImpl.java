@@ -107,7 +107,7 @@ public class OrderServiceImpl implements IOrderService{
 		logger.warn("[未支付 取消支付单]--[更新支付单状态"+(result == 1)+"]-->payOrderId:" + payOrderId + ",uid:" + uid + ",orderId:" + orderId + ",cancelReason:" + cancelReason + ",cancelTime:" + cancelTime);
 		
 		if(result == 1){
-			returnCoupon(uid, payOrderId, cancelTime, cancelReason+",退回代金券");
+			returnCoupon(uid, orderId, cancelTime, cancelReason+",退回代金券");
 			return true; 
 		}
 		
@@ -197,6 +197,7 @@ public class OrderServiceImpl implements IOrderService{
 		sql.append(", `order_id`");
 		sql.append(", `pay_way`");
 		sql.append(", `pay_type`");
+		sql.append(", `mcid`");
 		sql.append(", `pay_amount`");
 		sql.append(", `create_time`");
 		sql.append(", `update_time`");
