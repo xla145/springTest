@@ -23,7 +23,7 @@
     </bean>
     <bean id="aosJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="aosJobRemind" />
-        <property name="cronExpression" value="0 0 0/1 * * ?" /> <!-- 活动订单状态变更任务 订单状态 待开始  to 已结束  60分钟执行一次-->
+        <property name="cronExpression" value="0 0/3 * * * ?" /> <!-- 活动订单状态变更任务 订单状态 待开始  to 已结束  60分钟执行一次-->
     </bean>
  
  
@@ -34,7 +34,7 @@
     </bean>
     <bean id="asJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="asJobRemind" />
-        <property name="cronExpression" value="0 0/40 * * * ?" /> <!-- 活动商品状态变更任务 [报名中 to 进行中 to 已结束] 40分钟执行一次 -->
+        <property name="cronExpression" value="0 0/2 * * * ?" /> <!-- 活动商品状态变更任务 [报名中 to 进行中 to 已结束] 40分钟执行一次 -->
     </bean>
     
     
@@ -45,7 +45,7 @@
     </bean>
     <bean id="gosJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="gosJobRemind" />
-        <property name="cronExpression" value="0 0 0/2 * * ?" /> <!-- 商品订单状态变更任务 订单超时未收货自动收货 [待收货  to 确认收货] 120分钟执行一次 -->
+        <property name="cronExpression" value="0 0/2 * * * ?" /> <!-- 商品订单状态变更任务 订单超时未收货自动收货 [待收货  to 确认收货] 120分钟执行一次 -->
     </bean>
     
     
@@ -56,7 +56,7 @@
     </bean>
     <bean id="eocJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="eocJobRemind" />
-        <property name="cronExpression" value="0 0/6 * * * ?" /> <!-- 订单超时未支付， 取消订单  20分钟执行一次 -->
+        <property name="cronExpression" value="0 0/3 * * * ?" /> <!-- 订单超时未支付， 取消订单  20分钟执行一次 -->
     </bean>
  
  	<bean id="ecJobRemind" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -66,7 +66,7 @@
     </bean>
     <bean id="ecJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="ecJobRemind" />
-        <property name="cronExpression" value="0 0/10 * * * ?" /> <!-- 订单超时未支付， 取消订单  20分钟执行一次 -->
+        <property name="cronExpression" value="0 0/2 * * * ?" /> <!-- 订单超时未支付， 取消订单  20分钟执行一次 -->
     </bean>
  
  

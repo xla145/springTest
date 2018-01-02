@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,7 @@ public class OrderServiceImpl implements IOrderService{
 			String pid = order.getPid();
 			int buyCount = order.getBuyCount();
 			int result = 0;
+			String skuId = order.getSkuId();
 			
 			//更新订单状态
 			if(productGroup == ProductGroupConstant.PRODUCT_TYPE_GROUP_ACTIVITY){
@@ -68,7 +70,7 @@ public class OrderServiceImpl implements IOrderService{
 			
 			if(result == 1){
 				//返回库存
-				addStock(pid, buyCount);
+				addStock(pid, skuId, buyCount);
 				//取消支付单
 				this.noPayCancel(buyUid, orderId, date, reason);
 			}
@@ -215,13 +217,16 @@ public class OrderServiceImpl implements IOrderService{
 	 * 添加返回库存 
 	 * 
 	 * @param pid 商品id
-	 * @param count 扣减数
+	 * @param skuId 规格id
 	 * @param count 数量
 	 * @return
 	 */
-	public boolean addStock(String pid, int count){
-		String sql = "update `product` set `stock` = `stock` + ? where `pid` = ? ";
-		
-		return BaseDao.dao.update(sql, count, pid) == 1;
+	private boolean addStock(String pid, String skuId, int count){
+		if(StringUtils.isBlank(skuId)){
+			String sql = "update `product` set `stock` = `stock` + ? where `pid` = ? ";
+			return BaseDao.dao.update(sql, count, pid) == 1;
+		}
+		String sql = "update `product_spec_price` set `stock` = `stock` + ? where `pid` = ? and `sku_id` = ?";
+		return BaseDao.dao.update(sql, count, pid, skuId) == 1;
 	}
 }

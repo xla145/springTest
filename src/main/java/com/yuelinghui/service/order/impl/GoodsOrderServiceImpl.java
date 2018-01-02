@@ -25,6 +25,7 @@ public class GoodsOrderServiceImpl implements IGoodsOrderService{
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
+	
 	/**
 	 * 商品订单确认收货
 	 */
@@ -41,11 +42,6 @@ public class GoodsOrderServiceImpl implements IGoodsOrderService{
 			logger.info("[超时未确认收货订单，系统自动确认收货]-[" + orderId + "]-[result:"+result+"]");
 		}
 	}
-	
-	
-	
-	
-	
 	
 	/**
 	 * 获取超时未确认收货订单

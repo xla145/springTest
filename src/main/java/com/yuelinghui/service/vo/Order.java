@@ -27,6 +27,7 @@ public class Order extends BasePojo{
 	private String pid;					//商品id                                                 
 	private String productImg;                       
 	private int productGroupType;		//商品一级分类id
+	private int catId;					//商品一级分类id
 	private String productName;			//商品名称
 	private String productInfo;			//商品详细信息
 	private Double productPrice;		//商品售价
@@ -38,7 +39,7 @@ public class Order extends BasePojo{
 	private Date expireTime;			//订单超时时间
 	private Date finishTime;			//订单完成时间
 	
-	
+	private String skuId;				//规格id
 	
 	public String getOrderId() {
 		return orderId;
@@ -159,6 +160,19 @@ public class Order extends BasePojo{
 	}
 	public void setProductGroupType(int productGroupType) {
 		this.productGroupType = productGroupType;
+	}
+	public int getCatId() {
+		return catId;
+	}
+	public void setCatId(int catId) {
+		this.catId = catId;
+	}
+	
+	public String getSkuId() {
+		return skuId;
+	}
+	public void setSkuId(String skuId) {
+		this.skuId = skuId;
 	}
 	@Override
 	public String toString() {
