@@ -1,0 +1,12 @@
+<#include "../../_layout/_layout2.0.html"><#t><@header/>
+<div class="admin-main">
+    <!-- 按钮组 -->
+    <blockquote class="layui-elem-quote">
+        <a href="javascript:void(0)" class="layui-btn layui-btn-sm operator-btn" data-type="generator"><i class="layui-icon">&#xe654;</i>生成</a>
+    </blockquote>
+    <!-- 表格区域 -->
+    <table id="generatorTable" lay-filter="generatorTable"></table>
+</div>
+<@footer>
+<script src="${assets}js/generator/generator.js?_${.now?string('yyyy-MM-dd HH:mm:ss')}"></script>
+</@footer>

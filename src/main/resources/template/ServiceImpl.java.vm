@@ -1,0 +1,55 @@
+package ${package}.service.impl;
+
+import cn.assist.easydao.dao.BaseDao;
+import com.yuelinghui.base.helper.RecordBean;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
+import ${package}.service.vo.${className};
+import ${package}.service.${className}Service;
+import cn.assist.easydao.pojo.PagePojo;
+import cn.assist.easydao.common.Conditions;
+
+
+
+@Service("${classname}Service")
+public class ${className}ServiceImpl implements ${className}Service {
+	
+	@Override
+	public ${className} get${className}(${pk.attrType} ${pk.attrname}){
+		return BaseDao.dao.queryForEntity(${className}.class,${pk.attrname})
+	}
+
+    @Override
+    PagePojo<${className}> get${className}Page (Conditions conn,Integer pageNo,Integer pageSize){
+        // 具体自己去实现
+        Integer pageNo = (Integer) params.get("pageNo");
+        Integer pageSize = (Integer) params.get("pageSize");
+        Sort sort = new Sort("create_time", SqlSort.DESC);
+        Conditions con = new Conditions();
+        return BaseDao.dao.queryForListPage(Coupon.class,con,sort,pageNo,pageSize);
+	}
+
+    @Override
+    RecordBean<${className}> add(${className} ${classname}){
+        return RecordBean.success("OK");
+	}
+
+    @Override
+    RecordBean<${className}> edit(${className} ${classname}){
+        return RecordBean.success("OK");
+	}
+
+    @Override
+    RecordBean<String> del(${pk.attrType} ${pk.attrname}){
+        return RecordBean.success("OK");
+	}
+
+    @Override
+    RecordBean<String> delBatch(${pk.attrType}[] ${pk.attrname}s){
+        return RecordBean.success("OK");
+	}
+	
+}

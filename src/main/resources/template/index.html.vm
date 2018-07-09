@@ -1,0 +1,48 @@
+#set($header='<#include "../../_layout/_layout2.0.html"><#t><@header/>')
+$header
+#set($add='<@shiro.hasPermission name="'+${pathName}+':add">')
+#set($edit='<@shiro.hasPermission name="'+${pathName}+':edit">')
+#set($del='<@shiro.hasPermission name="'+${pathName}+':del">')
+#set($end='</@shiro.hasPermission>')
+<div class="admin-main">
+    <!-- 按钮组 -->
+    <blockquote class="layui-elem-quote">
+        $add
+        <a href="javascript:void(0)" class="layui-btn layui-btn-sm operator-btn" data-type="add"><i class="layui-icon">&#xe654;</i> 添加</a>
+        $end
+    </blockquote>
+    <!-- 筛选组 -->
+    <blockquote class="layui-elem-quote filter-bar">
+        <form class="layui-form"  id="filterForm">
+            #foreach($column in $columns)
+                #if($column.columnName != $pk.columnName)
+                    <div class="layui-inline">
+                        <label class="layui-filtrate-title">${column.comments}：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input"  name="${column.attrname}">
+                        </div>
+                    </div>
+                #end
+            #end
+            <div class="layui-inline">
+                <a href="javascript:void(0)" class="layui-btn layui-btn-sm operator-btn" data-type="search"><i class="layui-icon layui-icon-search"></i>搜索</a>
+                <a href="javascript:void(0)" class="layui-btn layui-btn-sm operator-btn" data-type="reset"><i class="layui-icon layui-icon-refresh-3"></i>重置</a>
+            </div>
+        </form>
+    </blockquote>
+    <!-- 表格区域 -->
+    <table id="${classname}Table" lay-filter="${classname}Table"></table>
+</div>
+#set($add='<#include "_add.html"><#t>')
+$add
+<@footer>
+<script src="${assets}js/generator/${pathName}.js?_${.now?string('yyyy-MM-dd HH:mm:ss')}"></script>
+<script type="text/html" id="bar">
+    $edit
+    <a class="layui-btn layui-btn-xs operator-btn" lay-event="edit">编辑</a>
+    $end
+    $del
+    <a class="layui-btn layui-btn-xs operator-btn" lay-event="del">删除</a>
+    $end
+</script>
+</@footer>

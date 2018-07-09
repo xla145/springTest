@@ -1,0 +1,34 @@
+<#include "../../_layout/_layout2.0.html"><#t><@header/>
+<div class="admin-main">
+    <!-- 按钮组 -->
+    <blockquote class="layui-elem-quote">
+        <a href="javascript:void(0)" class="layui-btn layui-btn-sm operator-btn" data-type="add"><i class="layui-icon">&#xe654;</i>添加</a>
+    </blockquote>
+    <!-- 筛选组 -->
+    <blockquote class="layui-elem-quote filter-bar">
+        <form class="layui-form" id="filterForm">
+            <div class="layui-inline">
+                <label class="layui-filtrate-title">链接地址：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="url">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <a href="javascript:void(0)" class="layui-btn layui-btn-sm operator-btn" data-type="search"><i
+                        class="layui-icon layui-icon-search"></i>搜索</a>
+                <a href="javascript:void(0)" class="layui-btn layui-btn-sm operator-btn layui-btn-normal" data-type="reset"><i
+                        class="layui-icon layui-icon-refresh-3"></i>重置</a>
+            </div>
+        </form>
+    </blockquote>
+    <!-- 表格区域 -->
+    <table id="couponTable" lay-filter="couponTable"></table>
+</div>
+<#include "_add.html"><#t>
+<@footer>
+<script src="${assets}js/coupon/coupon.js?_${.now?string('yyyy-MM-dd HH:mm:ss')}"></script>
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-xs operator-btn" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs operator-btn" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs operator-btn" lay-event="del">删除</a>
+</@footer>

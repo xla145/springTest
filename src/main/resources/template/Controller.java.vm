@@ -1,0 +1,110 @@
+package ${package}.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import com.alibaba.fastjson.JSONObject;
+import com.yuelinghui.base.utils.JsonBean;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import com.yuelinghui.base.utils.Query;
+import ${package}.service.vo.${className};
+import ${package}.service.${className}Service;
+import cn.assist.easydao.pojo.PagePojo;
+
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Controller
+@RequestMapping("${pathName}")
+public class ${className}Controller {
+
+	@Autowired
+	private ${className}Service ${classname}Service;
+
+    /**
+     * 信息 返回地址根据业务自己手动调整
+     */
+    @RequestMapping("/index")
+    @RequiresPermissions("${pathName}:index")
+    public String index(){
+        return "";
+    }
+
+
+	/**
+	 * 列表
+	 */
+    @ResponseBody
+	@RequestMapping("/list")
+	@RequiresPermissions("${pathName}:list")
+	public JSONObject list(@RequestParam Map<String, Object> params){
+		//查询列表数据
+        Query query = new Query(params);
+        PagePojo<${className}> page = ${classname}Service.get${className}Page(query);
+		return JsonBean.success(page);
+	}
+	
+	
+	/**
+	 * 信息
+	 */
+	@RequestMapping("/info/{${pk.attrname}}")
+	@RequiresPermissions("${pathName}:info")
+	public String info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname} , Model model){
+		${className} ${classname} = ${classname}Service.get${className}(${pk.attrname});
+        model.addAttribute("data",${classname});
+		return "/_info";
+	}
+	
+	/**
+	 * 保存
+	 */
+    @ResponseBody
+	@RequestMapping("/add")
+	@RequiresPermissions("${pathName}:add")
+	public JSONObject save(@RequestBody ${className} ${classname}){
+        RecordBean<${className}> result = ${classname}Service.add(${classname});
+        if (result.isSuccessCode()) {
+            return JsonBean.success(result.getMsg());
+        }
+        return JsonBean.error(result.getMsg());
+	}
+	
+	/**
+	 * 修改
+	 */
+    @ResponseBody
+	@RequestMapping("/edit")
+	@RequiresPermissions("${pathName}:edit")
+	public JSONObject update(@RequestBody ${className} ${classname}){
+        RecordBean<${className}> result = ${classname}Service.edit(${classname});
+        if (result.isSuccessCode()) {
+            return JsonBean.success(result.getMsg());
+        }
+        return JsonBean.error(result.getMsg());
+	}
+	
+	/**
+	 * 删除
+	 */
+    @ResponseBody
+	@RequestMapping("/del")
+	@RequiresPermissions("${pathName}:del")
+	public JSONObject del(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
+        RecordBean<String> result = ${classname}Service.delBatch(${pk.attrname}s);
+        if (result.isSuccessCode()) {
+            return JsonBean.success(result.getMsg());
+        }
+        return JsonBean.error(result.getMsg());
+	}
+	
+}

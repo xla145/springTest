@@ -1,0 +1,133 @@
+//入口common.js
+layui.extend({
+    common:"/resources2.0/js/common"
+}).use(['table', 'layer', 'form','common'], function () {
+    var table = layui.table, layer = layui.layer, form = layui.form,common = layui.common;
+    //列表渲染
+    var t = table.render({
+        elem: '#${classname}Table'
+        , url: '/${pathName}/list'
+        , where: common.formatForm($('#filterForm'))
+        , height: 'full-100'
+        , page: true
+        , method: 'post'
+        , request: {
+            pageName: 'pageNo' //页码的参数名称，默认：page
+            , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+        }
+        , limits: [15, 30, 50]
+        , limit: 15
+        , size: 'sm'
+        , cols: [[
+            {checkbox: true, fixed: true},
+            #foreach($column in $columns)
+                { field: '${column.attrname}', title: '${column.comments}', width: 100},
+            #end
+            {fixed: 'right', width: 200, title: '操作', toolbar: '#bar'}
+        ]],
+    });
+    //操作
+    var active = {
+        search: function () {
+            dataReload();
+        },
+        reset: function () {
+            $("#filterForm")[0].reset();
+            dataReload();
+        },
+        add: function () {
+            common.addForm({
+                content: $('#add-form'),
+                title: "xxxxxxx",
+                yes: function (index, layero) {
+                    var formEm = $(layero).find('form');
+                    if (!form.onVerify(formEm)) {
+                        return false;
+                    }
+                    /**表单提交 **/
+                    $.post('/${pathName}/add', formEm.serialize(), function (result) {
+                        if (result.code == 0) {
+                            formEm[0].reset();	//清空弹框表单内容
+                            layer.close(index);	//关闭弹框
+                            dataReload();
+                            return;
+                        }
+                        layer.msg(result.msg);
+                    });
+                }
+            });
+        },
+        edit: function (data) {
+            common.editForm({
+                content: "/${pathName}/getView?id=" + data.id,
+                title: '修改卡包信息',
+                yes: function (index, layero) {
+                    var formEm = $(layero).find('iframe').contents().find("#edit-form");
+                    if (!form.onVerify(formEm)) {
+                        return false;
+                    }
+                    /**表单提交 **/
+                    $.post('/${pathName}/edit', formEm.serialize(), function (result) {
+                        if (result.code == 0) {
+                            formEm[0].reset();	//清空弹框表单内容
+                            layer.close(index);	//关闭弹框
+                            dataReload(true);
+                            return;
+                        }
+                        layer.msg(result.msg);
+                    });
+                },
+                isFull: true
+            });
+        },
+        del: function (data) {
+            data = data || table.checkStatus('${classname}-table').data;
+            if (data == "") {
+                layer.msg("请选择一条数据进行删除！");
+                return;
+            }
+            var ids = new Array();
+            layui.each(data, function (i,j) {
+                ids.push(j.${pk.attrname}); // 加入对应的编号
+            })
+            layer.confirm('真的删除行么', function(index){
+                layer.close(index);
+                common.post("/${pathName}/del",{${pk.attrname}s: ids},function (result) {
+                    if (result.code == 0) {
+                        layer.close(index);	//关闭弹框
+                        dataReload(true);
+                        return;
+                    }
+                    layer.msg(result.msg)
+                })
+            });
+        },
+    }
+
+
+    //加载数据
+    var dataReload = function (isEdit) {
+        if (isEdit) {
+            $(".layui-laypage-btn")[0].click();
+            return;
+        }
+        tableIns.reload({
+            where: common.formatForm($('#filterForm')),page: {
+                pageNo: 1 //重新从第 1 页开始
+            }
+        });
+    }
+    //绑定操作按钮
+    $(document).on('click','.operator-btn', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
+
+    //监听工具条
+    table.on('tool(${classname}Table)', function (obj) {
+        var type = obj.event;
+        active[type] ? active[type].call(this, obj.data) : '';
+    });
+
+
+});

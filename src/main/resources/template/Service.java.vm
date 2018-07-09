@@ -1,0 +1,32 @@
+package ${package}.service;
+
+import ${package}.service.vo.${className};
+import cn.assist.easydao.pojo.PagePojo;
+import cn.assist.easydao.common.Conditions;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${className}Service {
+
+
+	${className} get${className}(${pk.attrType} ${pk.attrname});
+
+    PagePojo<${className}> get${className}Page (Conditions conn,Integer pageNo,Integer pageSize);
+
+    RecordBean<${className}> add(${className} ${classname});
+
+    RecordBean<${className}> edit(${className} ${classname});
+
+    RecordBean<String> del(${pk.attrType} ${pk.attrname});
+
+    RecordBean<String> delBatch(${pk.attrType}[] ${pk.attrname}s);
+
+
+}
